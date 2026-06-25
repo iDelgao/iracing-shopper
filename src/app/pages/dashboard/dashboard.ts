@@ -117,26 +117,20 @@ export class Dashboard implements OnInit {
   }
 
   // Función inteligente para agrupar coches en el tooltip (Corregida para tu estructura real)
-  getTooltipMulticlase(cochesData: any[]): { clase: string; lista: string }[] {
+  // 1. Agrupa los coches por clase (Versión Array para poder pintarlos por separado)
+  getTooltipMulticlase(cochesData: any[]): { clase: string; coches: string[] }[] {
     if (!cochesData || cochesData.length === 0) return [];
 
     const grupos: { [key: string]: string[] } = {};
     const cochesSinClase: string[] = [];
 
-    // 1. Extraemos todos los coches a una lista plana independientemente de cómo vengan
     const cochesExtraidos: string[] = [];
     cochesData.forEach((item) => {
-      if (typeof item === 'string') {
-        cochesExtraidos.push(item);
-      } else if (item.coches && Array.isArray(item.coches)) {
-        // Tu estructura real: { clase: '...', coches: ['coche1', 'coche2'] }
-        cochesExtraidos.push(...item.coches);
-      } else if (item.nombre) {
-        cochesExtraidos.push(item.nombre);
-      }
+      if (typeof item === 'string') cochesExtraidos.push(item);
+      else if (item.coches && Array.isArray(item.coches)) cochesExtraidos.push(...item.coches);
+      else if (item.nombre) cochesExtraidos.push(item.nombre);
     });
 
-    // 2. Clasificamos la telemetría
     cochesExtraidos.forEach((cocheStr) => {
       if (!cocheStr) return;
       const nombreUpper = cocheStr.toUpperCase();
@@ -174,20 +168,52 @@ export class Dashboard implements OnInit {
       }
     });
 
-    // 3. Construimos el array para el HTML
     const resultado = [];
     for (const clase in grupos) {
-      resultado.push({ clase: clase, lista: grupos[clase].join(', ') });
+      resultado.push({ clase: clase, coches: grupos[clase] }); // Enviamos el array, no un texto
     }
 
     if (cochesSinClase.length > 0) {
       resultado.push({
         clase: Object.keys(grupos).length > 0 ? 'Otras Clases' : 'Coches',
-        lista: cochesSinClase.join(', '),
+        coches: cochesSinClase,
       });
     }
 
-    return resultado;
+    return Object.keys(grupos).map((key) => ({
+      clase: key,
+      coches: grupos[key],
+    }));
+  }
+
+  // 2. Decide de qué color se pinta el botón "Multiclase" (Faltante, Comprado o Gratis)
+  getEstadoMulticlase(cochesData: any[]): string {
+    if (!cochesData || cochesData.length === 0) return 'missing-badge';
+
+    let hasFree = false;
+    let hasOwned = false;
+
+    // Recolectamos todos los coches de la serie
+    const allCars: string[] = [];
+    cochesData.forEach((item) => {
+      if (typeof item === 'string') allCars.push(item);
+      else if (item.coches && Array.isArray(item.coches)) allCars.push(...item.coches);
+      else if (item.nombre) allCars.push(item.nombre);
+    });
+
+    // Comprobamos qué tenemos en el garaje
+    for (const coche of allCars) {
+      const tipo = this.dataService.getTipoCoche(coche);
+      if (tipo === 'free') hasFree = true;
+      if (tipo === 'owned') hasOwned = true;
+    }
+
+    // Si tenemos alguno gratis, pinta el botón de gratis.
+    // Si no, pero tenemos comprados, pinta de comprado.
+    // Si no tenemos absolutamente ninguno, pinta de faltante.
+    if (hasFree) return 'free-badge';
+    if (hasOwned) return 'owned-badge';
+    return 'missing-badge';
   }
 
   // --- NUEVAS FUNCIONES DE APOYO PARA EL HTML ---

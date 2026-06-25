@@ -41,7 +41,9 @@
                     (mouseenter)="menuTrigger.openMenu()"
                     (mouseleave)="menuTrigger.closeMenu()"
                   >
-                    <span class="texto-multiclase">Multiclase</span>
+                    <span class="car-tag" [ngClass]="getEstadoMulticlase(serie.coches)">
+                      Multiclase
+                    </span>
                   </div>
 
                   <mat-menu
@@ -51,13 +53,24 @@
                     [hasBackdrop]="false"
                     panelClass="dark-multiclase-menu"
                   >
-                    <div class="html-tooltip-content">
+                    <div class="menu-container">
                       <div
-                        class="tooltip-section"
+                        class="grupo-clase"
                         *ngFor="let grupo of getTooltipMulticlase(serie.coches)"
                       >
-                        <div class="section-title">{{ grupo.clase }}</div>
-                        <div class="section-cars">{{ grupo.lista }}</div>
+                        <div class="titulo-clase">{{ grupo.clase }}</div>
+                        <ul class="lista-coches">
+                          <li
+                            *ngFor="let coche of grupo.coches"
+                            [ngClass]="{
+                              'coche-free': dataService.getTipoCoche(coche) === 'free',
+                              'coche-owned': dataService.getTipoCoche(coche) === 'owned',
+                              'coche-missing': dataService.getTipoCoche(coche) === 'missing',
+                            }"
+                          >
+                            {{ coche }}
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </mat-menu>

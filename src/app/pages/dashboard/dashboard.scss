@@ -347,24 +347,6 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-
-  .texto-multiclase {
-    color: #f5f5f5;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-    background-color: rgba(255, 255, 255, 0.05); /* Fondo sutil de botón */
-    border-radius: 4px;
-    padding: 4px 10px;
-    border: 1px solid #333;
-    transition: all 0.2s ease;
-
-    &:hover {
-      color: #121212;
-      background-color: #00e5ff; /* Se ilumina en Cyan al pasar el ratón */
-      border-color: #00e5ff;
-    }
-  }
 }
 
 /* =========================================
@@ -394,50 +376,67 @@
   }
 }
 
-/* =========================================
-   MENÚ FLOTANTE DE ANGULAR MATERIAL (Efecto Tooltip)
-   ========================================= */
+/* ========================================================
+   MENÚ FLOTANTE: ESTILO RACING (Forzado a fondo oscuro)
+   ======================================================== */
 ::ng-deep .dark-multiclase-menu {
+  // 1. Forzamos el fondo oscuro absoluto
   background-color: #121212 !important;
+  color: #e0e0e0 !important; // Texto claro por defecto
+
   border: 1px solid #333333 !important;
   border-radius: 6px !important;
-  /* Sombra proyectada hacia abajo para dar volumen al salir por arriba */
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.7) !important;
-  min-width: 260px !important;
-  max-width: 400px !important;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 1) !important;
+  min-width: 300px !important;
+  pointer-events: none !important;
 
-  /* Ajustes vitales de comportamiento Tooltip */
-  margin-bottom: 8px !important; /* Deja un hueco con la palabra Multiclase */
-  pointer-events: none !important; /* Elemento fantasma: evita que la caja robe clicks o parpadee */
-
+  // 2. Limpiamos cualquier padding/margin de Material
   .mat-mdc-menu-content {
-    padding: 14px 18px !important;
+    padding: 16px !important;
+    background-color: #121212 !important; // Fondo forzado
   }
 
+  // 3. Estructura interna
   .html-tooltip-content {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    outline: none;
+    gap: 16px;
   }
 
   .tooltip-section {
     text-align: left;
 
     .section-title {
-      color: #888;
-      font-size: 13px;
-      font-weight: 700;
-      border-bottom: 1px solid #333333;
+      color: #00e5ff; // Cian iRacing
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      border-bottom: 1px solid #333;
       padding-bottom: 4px;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .section-cars {
-      color: #f5f5f5;
-      font-size: 13px;
-      line-height: 1.5;
-      white-space: normal;
+      display: flex;
+      flex-direction: column; // Lista vertical
+      gap: 4px;
+
+      span {
+        font-size: 13px;
+        // Colores de estado con fondo oscuro garantizado
+        &.text-free {
+          color: #81c784 !important;
+          font-weight: 500;
+        }
+        &.text-owned {
+          color: #64b5f6 !important;
+          font-weight: 500;
+        }
+        &.text-missing {
+          color: #777 !important;
+          font-style: italic;
+        }
+      }
     }
   }
 }

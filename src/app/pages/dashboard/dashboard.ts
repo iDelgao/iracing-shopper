@@ -11,7 +11,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Data } from '../../services/data';
 import { Schedule, SerieOficial } from '../../services/schedule';
-import { CocheClase } from '../../services/schedule';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,6 +27,7 @@ import { CocheClase } from '../../services/schedule';
     MatExpansionModule,
     MatTabsModule,
     MatTooltipModule, // <--- Registramos el módulo
+    MatMenuModule, // <--- Registramos el módulo
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',

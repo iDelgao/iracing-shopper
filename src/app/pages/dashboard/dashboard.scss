@@ -404,4 +404,13 @@
     visibility: visible;
     opacity: 1;
   }
+
+  /* =========================================
+   FIX: ROMPER LAS PAREDES DEL PANEL MATERIAL
+   ========================================= */
+  ::ng-deep .mat-expansion-panel,
+  ::ng-deep .mat-expansion-panel-header,
+  ::ng-deep .mat-expansion-panel-header .mat-content {
+    overflow: visible !important;
+  }
 }

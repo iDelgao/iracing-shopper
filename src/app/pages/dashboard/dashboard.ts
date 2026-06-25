@@ -115,21 +115,30 @@ export class Dashboard implements OnInit {
     return tieneLicencia && tieneCoche && tieneCircuito;
   }
 
-  // Nueva función: Acepta objetos CocheClase y extrae el nombre
+  // Función inteligente para agrupar coches en el tooltip (Corregida para tu estructura real)
   getTooltipMulticlase(cochesData: any[]): { clase: string; lista: string }[] {
     if (!cochesData || cochesData.length === 0) return [];
 
     const grupos: { [key: string]: string[] } = {};
     const cochesSinClase: string[] = [];
 
-    // Clasificamos la telemetría
+    // 1. Extraemos todos los coches a una lista plana independientemente de cómo vengan
+    const cochesExtraidos: string[] = [];
     cochesData.forEach((item) => {
-      // MAGIA: Si nos llega un texto simple lo usamos, si nos llega el objeto CocheClase, extraemos su .nombre
-      const nombreReal = typeof item === 'string' ? item : item.nombre;
+      if (typeof item === 'string') {
+        cochesExtraidos.push(item);
+      } else if (item.coches && Array.isArray(item.coches)) {
+        // Tu estructura real: { clase: '...', coches: ['coche1', 'coche2'] }
+        cochesExtraidos.push(...item.coches);
+      } else if (item.nombre) {
+        cochesExtraidos.push(item.nombre);
+      }
+    });
 
-      if (!nombreReal) return; // Seguro anti-fallos
-
-      const nombreUpper = nombreReal.toUpperCase();
+    // 2. Clasificamos la telemetría
+    cochesExtraidos.forEach((cocheStr) => {
+      if (!cocheStr) return;
+      const nombreUpper = cocheStr.toUpperCase();
 
       if (
         nombreUpper.includes('GTP') ||
@@ -138,13 +147,13 @@ export class Dashboard implements OnInit {
         nombreUpper.includes('963')
       ) {
         if (!grupos['GTP']) grupos['GTP'] = [];
-        grupos['GTP'].push(nombreReal);
+        grupos['GTP'].push(cocheStr);
       } else if (nombreUpper.includes('LMP2') || nombreUpper.includes('DALLARA P217')) {
         if (!grupos['LMP2']) grupos['LMP2'] = [];
-        grupos['LMP2'].push(nombreReal);
+        grupos['LMP2'].push(cocheStr);
       } else if (nombreUpper.includes('LMP3') || nombreUpper.includes('LIGIER JS P320')) {
         if (!grupos['LMP3']) grupos['LMP3'] = [];
-        grupos['LMP3'].push(nombreReal);
+        grupos['LMP3'].push(cocheStr);
       } else if (
         nombreUpper.includes('GT3') ||
         nombreUpper.includes('PORSCHE 911 GT3 R') ||
@@ -152,19 +161,19 @@ export class Dashboard implements OnInit {
         nombreUpper.includes('M4 GT3')
       ) {
         if (!grupos['GT3']) grupos['GT3'] = [];
-        grupos['GT3'].push(nombreReal);
+        grupos['GT3'].push(cocheStr);
       } else if (nombreUpper.includes('GT4')) {
         if (!grupos['GT4']) grupos['GT4'] = [];
-        grupos['GT4'].push(nombreReal);
+        grupos['GT4'].push(cocheStr);
       } else if (nombreUpper.includes('TCR')) {
         if (!grupos['TCR']) grupos['TCR'] = [];
-        grupos['TCR'].push(nombreReal);
+        grupos['TCR'].push(cocheStr);
       } else {
-        cochesSinClase.push(nombreReal);
+        cochesSinClase.push(cocheStr);
       }
     });
 
-    // Construimos el array para el HTML
+    // 3. Construimos el array para el HTML
     const resultado = [];
     for (const clase in grupos) {
       resultado.push({ clase: clase, lista: grupos[clase].join(', ') });
@@ -180,10 +189,11 @@ export class Dashboard implements OnInit {
     return resultado;
   }
 
-  // Función auxiliar para extraer el nombre del coche y evitar errores estrictos del HTML
-  getNombreCocheUnico(coche: any): string {
-    if (!coche) return '';
-    // Si es un texto simple lo devuelve, si es un objeto extrae el .nombre
-    return typeof coche === 'string' ? coche : coche.nombre;
+  // Función auxiliar corregida para tu estructura
+  getNombreCocheUnico(cocheData: any): string {
+    if (!cocheData) return '';
+    if (typeof cocheData === 'string') return cocheData;
+    if (cocheData.coches && cocheData.coches.length > 0) return cocheData.coches[0];
+    return cocheData.nombre || '';
   }
 }

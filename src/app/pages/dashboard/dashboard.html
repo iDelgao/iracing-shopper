@@ -35,16 +35,11 @@
               <mat-panel-description class="header-right">
                 <!-- CASO 1: Multiclase (Mostramos badge simple y tooltip) -->
                 <div class="panel-coche">
-                  <div class="coche-unico" *ngIf="serie.coches && serie.coches.length === 1">
-                    {{ getNombreCocheUnico(serie.coches[0]) }}
-                  </div>
-
                   <div
                     class="custom-tooltip-wrapper multiclase-badge"
                     *ngIf="serie.coches?.length > 1"
                   >
                     <span class="texto-multiclase">MULTICLASE</span>
-
                     <div class="html-tooltip">
                       <div
                         class="tooltip-section"
@@ -54,6 +49,22 @@
                         <div class="section-cars">{{ grupo.lista }}</div>
                       </div>
                     </div>
+                  </div>
+
+                  <div *ngIf="serie.coches?.length === 1" class="tags-container">
+                    <ng-container *ngFor="let clase of serie.coches">
+                      <span
+                        class="car-tag"
+                        *ngFor="let coche of clase.coches"
+                        [ngClass]="{
+                          'free-badge': dataService.getTipoCoche(coche) === 'free',
+                          'owned-badge': dataService.getTipoCoche(coche) === 'owned',
+                          'missing-badge': dataService.getTipoCoche(coche) === 'missing',
+                        }"
+                      >
+                        {{ coche }}
+                      </span>
+                    </ng-container>
                   </div>
                 </div>
 

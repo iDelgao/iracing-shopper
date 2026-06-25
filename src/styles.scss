@@ -85,3 +85,10 @@ body {
     white-space: pre-line !important;
   }
 }
+
+/* Forzar que todos los menús de Material sean oscuros por defecto */
+.mat-mdc-menu-panel {
+  --mat-menu-container-color: #121212 !important;
+  --mat-menu-item-label-text-color: #e0e0e0 !important;
+  background-color: #121212 !important;
+}

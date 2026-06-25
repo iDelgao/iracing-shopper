@@ -53,24 +53,24 @@
                     [hasBackdrop]="false"
                     panelClass="dark-multiclase-menu"
                   >
-                    <div class="menu-container">
+                    <div class="html-tooltip-content">
                       <div
-                        class="grupo-clase"
+                        class="tooltip-section"
                         *ngFor="let grupo of getTooltipMulticlase(serie.coches)"
                       >
-                        <div class="titulo-clase">{{ grupo.clase }}</div>
-                        <ul class="lista-coches">
-                          <li
+                        <div class="section-title">{{ grupo.clase }}</div>
+                        <div class="section-cars">
+                          <div
                             *ngFor="let coche of grupo.coches"
                             [ngClass]="{
-                              'coche-free': dataService.getTipoCoche(coche) === 'free',
-                              'coche-owned': dataService.getTipoCoche(coche) === 'owned',
-                              'coche-missing': dataService.getTipoCoche(coche) === 'missing',
+                              'text-free': dataService.getTipoCoche(coche) === 'free',
+                              'text-owned': dataService.getTipoCoche(coche) === 'owned',
+                              'text-missing': dataService.getTipoCoche(coche) === 'missing',
                             }"
                           >
                             {{ coche }}
-                          </li>
-                        </ul>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </mat-menu>

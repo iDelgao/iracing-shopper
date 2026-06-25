@@ -376,66 +376,61 @@
   }
 }
 
-/* ========================================================
-   MENÚ FLOTANTE: ESTILO RACING (Forzado a fondo oscuro)
-   ======================================================== */
+/* =========================================
+   TOOLTIP MULTICLASE: ESTILO CONTRASTADO
+   ========================================= */
 ::ng-deep .dark-multiclase-menu {
-  // 1. Forzamos el fondo oscuro absoluto
+  // Fuerza absoluta para el fondo
   background-color: #121212 !important;
-  color: #e0e0e0 !important; // Texto claro por defecto
 
-  border: 1px solid #333333 !important;
-  border-radius: 6px !important;
-  box-shadow: 0px 8px 24px rgba(0, 0, 0, 1) !important;
-  min-width: 300px !important;
-  pointer-events: none !important;
-
-  // 2. Limpiamos cualquier padding/margin de Material
+  // Anulación de los estilos de Material
   .mat-mdc-menu-content {
+    background-color: #121212 !important;
     padding: 16px !important;
-    background-color: #121212 !important; // Fondo forzado
   }
 
-  // 3. Estructura interna
+  // Estructura de texto
   .html-tooltip-content {
+    background-color: #121212 !important;
+    color: #ffffff !important;
     display: flex;
     flex-direction: column;
     gap: 16px;
   }
 
   .tooltip-section {
-    text-align: left;
-
     .section-title {
-      color: #00e5ff; // Cian iRacing
-      font-size: 11px;
+      color: #00e5ff !important; // Cian vibrante
       font-weight: 800;
+      font-size: 11px;
       text-transform: uppercase;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #444;
       padding-bottom: 4px;
       margin-bottom: 8px;
     }
 
     .section-cars {
       display: flex;
-      flex-direction: column; // Lista vertical
+      flex-direction: column;
       gap: 4px;
 
-      span {
+      div {
         font-size: 13px;
-        // Colores de estado con fondo oscuro garantizado
-        &.text-free {
-          color: #81c784 !important;
-          font-weight: 500;
-        }
-        &.text-owned {
-          color: #64b5f6 !important;
-          font-weight: 500;
-        }
-        &.text-missing {
-          color: #777 !important;
-          font-style: italic;
-        }
+        color: #e0e0e0 !important; // Asegura texto claro
+      }
+
+      // Colores de estado
+      .text-free {
+        color: #81c784 !important;
+        font-weight: 500;
+      }
+      .text-owned {
+        color: #64b5f6 !important;
+        font-weight: 500;
+      }
+      .text-missing {
+        color: #888888 !important;
+        font-style: italic;
       }
     }
   }

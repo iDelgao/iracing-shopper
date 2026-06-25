@@ -1,0 +1,25 @@
+<mat-toolbar class="navbar-dark">
+  <span class="brand-title">iRacing Shopper</span>
+
+  <span class="spacer"></span>
+
+  <div class="nav-links">
+    <button mat-button routerLink="/" class="nav-btn">Inicio</button>
+    <button mat-button routerLink="/garaje" class="nav-btn">Mi Garaje</button>
+    <button mat-button routerLink="/calculadora" class="nav-btn">Calculadora</button>
+  </div>
+
+  <span class="spacer"></span>
+
+  <div class="action-buttons">
+    <button mat-button [matMenuTriggerFor]="langMenu" class="lang-btn">
+      <mat-icon>language</mat-icon> ES
+    </button>
+    <mat-menu #langMenu="matMenu" class="dark-menu">
+      <button mat-menu-item>Español</button>
+      <button mat-menu-item>English</button>
+    </mat-menu>
+
+    <button mat-raised-button class="login-btn">Login con iRacing</button>
+  </div>
+</mat-toolbar>

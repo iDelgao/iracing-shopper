@@ -1,0 +1,64 @@
+/* Fondo de la barra de navegación */
+.navbar-dark {
+  background-color: #1e1e1e;
+  color: #f5f5f5;
+  border-bottom: 2px solid #333333;
+}
+
+/* BLOQUE 1: Estilo del título */
+.brand-title {
+  font-weight: 900;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: #00e5ff;
+  margin-right: 20px;
+  letter-spacing: 1px;
+}
+
+/* Espaciadores flexibles para centrar el bloque 2 */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* BLOQUE 2: Contenedor de Navegación */
+.nav-links {
+  display: flex;
+  gap: 15px; /* Separación entre los botones del menú */
+}
+
+/* Clase específica para los botones de navegación */
+.nav-btn {
+  color: #f5f5f5 !important; /* Texto claro para que se lea bien */
+  font-size: 1rem;
+  opacity: 0.8; /* Ligeramente apagados por defecto */
+  transition: all 0.3s ease; /* Transición suave */
+}
+
+/* Efecto al pasar el ratón por los botones centrales */
+.nav-btn:hover {
+  opacity: 1;
+  color: #00e5ff !important; /* Se iluminan con el Cyan de la escudería */
+  background-color: rgba(255, 255, 255, 0.05); /* Fondo muy sutil */
+}
+
+/* BLOQUE 3: Contenedor Derecha (Idioma y Login) */
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+/* El botón de login destacado */
+.login-btn {
+  background-color: #ff9100;
+  color: #121212 !important;
+  font-weight: bold;
+  margin-left: 15px;
+}
+
+/* El botón de idioma destacado */
+.lang-btn {
+  background-color: #ff9100;
+  color: #121212 !important;
+  font-weight: bold;
+  margin-left: 15px;
+}

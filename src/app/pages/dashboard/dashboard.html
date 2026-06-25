@@ -1,0 +1,127 @@
+<div class="dashboard-container">
+  <div class="header-actions">
+    <h1 class="page-title">Calendario Semanal</h1>
+
+    <mat-slide-toggle [(ngModel)]="mostrarSoloApto" class="apto-toggle" color="primary">
+      Mostrar SOLO Apto para mí
+    </mat-slide-toggle>
+  </div>
+
+  <mat-tab-group class="dark-tabs" animationDuration="0ms">
+    <mat-tab *ngFor="let cat of categorias" [label]="cat">
+      <div class="tab-content">
+        <div class="empty-state" *ngIf="obtenerSeriesPorCategoria(cat).length === 0">
+          <mat-icon>engineering</mat-icon>
+          <p>Los mecánicos están cargando las series de {{ cat }} para esta temporada...</p>
+        </div>
+
+        <mat-accordion
+          class="series-accordion"
+          multi
+          *ngIf="obtenerSeriesPorCategoria(cat).length > 0"
+        >
+          <mat-expansion-panel
+            *ngFor="let serie of obtenerSeriesPorCategoria(cat)"
+            class="dark-panel"
+          >
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title class="header-left">
+                <span class="badge-license" [ngClass]="'licence-' + serie.clase">
+                  {{ serie.clase === 'Rookie' ? 'R' : serie.clase }}
+                </span>
+                <span class="serie-title-text">{{ serie.nombre }}</span>
+              </mat-panel-title>
+
+              <mat-panel-description class="header-right">
+                <!-- CASO 1: Multiclase (Mostramos badge simple y tooltip) -->
+                <div class="panel-coche">
+                  <div class="coche-unico" *ngIf="serie.coches && serie.coches.length === 1">
+                    {{ getNombreCocheUnico(serie.coches[0]) }}
+                  </div>
+
+                  <div
+                    class="custom-tooltip-wrapper multiclase-badge"
+                    *ngIf="serie.coches?.length > 1"
+                  >
+                    <span class="texto-multiclase">MULTICLASE</span>
+
+                    <div class="html-tooltip">
+                      <div
+                        class="tooltip-section"
+                        *ngFor="let grupo of getTooltipMulticlase(serie.coches)"
+                      >
+                        <div class="section-title">{{ grupo.clase }}</div>
+                        <div class="section-cars">{{ grupo.lista }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CASO 2: Clase única (Tu lógica actual de etiquetas) -->
+                <div *ngIf="serie.coches.length === 1" class="tags-container">
+                  <ng-container *ngFor="let clase of serie.coches">
+                    <span
+                      class="car-tag"
+                      *ngFor="let coche of clase.coches"
+                      [ngClass]="{
+                        'free-badge': dataService.getTipoCoche(coche) === 'free',
+                        'owned-badge': dataService.getTipoCoche(coche) === 'owned',
+                        'missing-badge': dataService.getTipoCoche(coche) === 'missing',
+                      }"
+                    >
+                      {{ coche }}
+                    </span>
+                  </ng-container>
+                </div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="table-container">
+              <table class="schedule-table">
+                <thead>
+                  <tr>
+                    <th>SEMANA</th>
+                    <th>FECHA INICIO</th>
+                    <th>CIRCUITO</th>
+                    <th>DURACIÓN</th>
+                    <th>ESTADO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let sem of serie.calendario"
+                    [ngClass]="{ 'current-week-row': sem.numero === semanaActual }"
+                  >
+                    <td>Semana {{ sem.numero }}</td>
+                    <td>{{ sem.fechaInicio }}</td>
+                    <td class="track-cell">
+                      <mat-icon class="track-icon">flag</mat-icon> {{ sem.circuito }}
+                    </td>
+                    <td>{{ sem.duracion }}</td>
+                    <td>
+                      <span
+                        class="badge free-badge"
+                        *ngIf="dataService.getTipoCircuito(sem.circuito) === 'free'"
+                        >Contenido base</span
+                      >
+                      <span
+                        class="badge owned-badge"
+                        *ngIf="dataService.getTipoCircuito(sem.circuito) === 'owned'"
+                        >Adquirido</span
+                      >
+                      <span
+                        class="badge missing-badge"
+                        *ngIf="dataService.getTipoCircuito(sem.circuito) === 'missing'"
+                        >Faltante</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

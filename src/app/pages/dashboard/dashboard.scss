@@ -1,0 +1,407 @@
+.dashboard-container {
+  padding: 20px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.page-title {
+  color: #f5f5f5;
+  font-weight: 900;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.week-selector {
+  width: 180px;
+  margin-top: 15px;
+}
+
+/* --- ESTILOS DEL BANNER INFORMATIVO --- */
+.info-banner {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  display: flex;
+  padding: 15px 25px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.banner-item {
+  display: flex;
+  flex-direction: column;
+  .label {
+    font-size: 0.75rem;
+    color: #888;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+  .value {
+    font-size: 1.1rem;
+    color: #00e5ff;
+    font-weight: bold;
+    margin-top: 4px;
+  }
+}
+
+.banner-divider {
+  width: 1px;
+  height: 30px;
+  background-color: #333;
+  margin: 0 40px;
+}
+
+/* --- ESTILOS DEL DESPLEGABLE (ACCORDION) --- */
+.series-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dark-panel {
+  background-color: #1e1e1e !important;
+  border: 1px solid #2d2d2d !important;
+  color: #f5f5f5 !important;
+  border-radius: 6px !important;
+}
+
+/* --- CABECERA DE LA SERIE (Más estrecha y compacta) --- */
+.panel-header {
+  padding: 0% 10px !important; /* Reducimos el relleno vertical a solo 6px */
+  min-height: 50px !important; /* Forzamos a Angular Material a reducir la altura mínima */
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 2;
+}
+
+.serie-title-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #f5f5f5;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 1;
+}
+
+/* --- ETIQUETAS DE LICENCIA Y CATEGORÍA --- */
+
+.badge-license {
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  font-weight: 900;
+  border-radius: 4px;
+  color: #fff;
+
+  &.licence-R {
+    background-color: #ff1744;
+  }
+  &.licence-D {
+    background-color: #ff9100;
+  }
+  &.licence-C {
+    background-color: #ffea00;
+    color: #121212;
+  }
+  &.licence-B {
+    background-color: #00e676;
+    color: #121212;
+  }
+  &.licence-A {
+    background-color: #2979ff;
+  }
+}
+
+/* --- TABLA INTERNA --- */
+.table-container {
+  padding: 10px 0 20px 0;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  th {
+    padding: 12px;
+    font-size: 0.8rem;
+    color: #777;
+    border-bottom: 2px solid #333;
+    font-weight: bold;
+  }
+
+  td {
+    padding: 14px 12px;
+    font-size: 0.9rem;
+    color: #ccc;
+    border-bottom: 1px solid #2d2d2d;
+  }
+}
+
+/* 🎯 FILA DE SEMANA ACTUAL RESALTADA */
+.current-week-row {
+  background-color: rgba(0, 229, 255, 0.06) !important;
+
+  td {
+    color: #00e5ff !important;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+    border-top: 1px solid rgba(0, 229, 255, 0.3);
+  }
+
+  .track-icon {
+    color: #ff9100 !important;
+  }
+}
+
+/* --- CELDA DEL CIRCUITO Y BANDERA (Ajuste de centrado vertical) --- */
+.track-cell {
+  /* Al quitar el display:flex, la celda recupera su centrado vertical nativo de tabla */
+  vertical-align: middle;
+}
+
+.track-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  color: #555;
+  vertical-align: middle; /* Alinea el icono con la base del texto */
+  margin-right: 8px; /* Sustituye al 'gap' que usábamos antes */
+  position: relative;
+  top: -1px; /* Ajuste fino aerodinámico para que el mástil de la bandera encaje perfecto */
+}
+
+/* --- ETIQUETAS DE CONTENIDO UNIFICADAS (Coches y Pistas) --- */
+.car-tag,
+.badge {
+  display: inline-block;
+  padding: 2px 8px; /* Relleno más compacto */
+  font-size: 0.7rem; /* Tamaño de letra reducido */
+  font-weight: bold;
+  border-radius: 3px; /* Esquinas casi cuadradas, mucho menos redondeadas */
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+}
+
+/* Márgenes de separación específicos para cada zona */
+.car-tag {
+  margin-left: 6px;
+}
+
+.badge {
+  margin-left: 10px;
+}
+
+/* --- COLORES DE LAS ETIQUETAS (Se mantienen tus códigos exactos) --- */
+.free-badge {
+  background-color: rgba(36, 208, 13, 0.12);
+  color: #24d00d !important;
+  border: 1px solid #24d00d;
+}
+
+.owned-badge {
+  background-color: rgba(0, 110, 255, 0.12);
+  color: #006eff !important;
+  border: 1px solid #006eff;
+}
+
+.missing-badge {
+  background-color: rgba(255, 163, 102, 0.12);
+  color: #ffa366 !important;
+  border: 1px solid #ffa366;
+}
+/* Forzar color de los iconos de expansión de Material */
+::ng-deep .mat-expansion-indicator::after {
+  color: #00e5ff !important;
+}
+
+/* --- ESTILOS DE PESTAÑAS --- */
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #aaaaaa !important;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #00e5ff !important;
+}
+
+::ng-deep .mat-mdc-tab-group .mdc-tab-indicator__active-indicator {
+  border-color: #00e5ff !important;
+}
+
+.tab-content {
+  padding: 25px 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  color: #777;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 15px;
+    color: #555;
+  }
+
+  p {
+    font-size: 1.1rem;
+    font-style: italic;
+  }
+}
+
+.cars-wrapper {
+  display: flex;
+  flex-direction: column; /* Apilamos clases en vertical si hace falta */
+  gap: 5px;
+  width: 100%;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap; /* ¡ESTO ES LA CLAVE! Permite saltar de línea */
+  gap: 4px;
+}
+
+.car-tag {
+  white-space: nowrap; /* Evita que el nombre del coche se parta */
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  /* ... resto de tu estilo ... */
+}
+
+.class-label {
+  color: #888;
+  font-size: 0.7rem;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.multiclass-badge {
+  background-color: #3f51b5; /* Un azul profesional, o usa tu color de marca */
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: help; /* Indica que es interactivo */
+  transition: background 0.2s;
+}
+
+.multiclass-badge:hover {
+  background-color: #303f9f;
+}
+
+/* Opcional: Para que el tooltip sea un poco más ancho si tienes muchos coches */
+.multiclass-tooltip {
+  max-width: 400px !important;
+  white-space: pre-line; /* Respeta los saltos de línea del mapa */
+}
+
+/* =========================================
+   TOOLTIP CUSTOM PARA PANEL MULTICLASE
+   ========================================= */
+.custom-tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: help; // Indica al usuario que hay información al pasar el ratón
+
+  // Estilo para la palabra "MULTICLASE"
+  .texto-multiclase {
+    color: #f5f5f5; // Puedes cambiarlo al color Cyan/Naranja que uses en tu app
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #00e5ff; // Efecto hover opcional
+    }
+  }
+
+  // Estilos del cuadro flotante (oculto por defecto)
+  .html-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 150%; // Flota justo por encima del texto MULTICLASE
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #121212;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    padding: 14px 18px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.7);
+    min-width: 260px;
+    z-index: 9999;
+    pointer-events: none;
+    transition:
+      opacity 0.2s ease,
+      visibility 0.2s ease;
+
+    // Flecha del tooltip
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -6px;
+      border-width: 6px;
+      border-style: solid;
+      border-color: #121212 transparent transparent transparent;
+    }
+
+    // Interior estructurado (Mantenemos tu estilo exacto)
+    .tooltip-section {
+      margin-bottom: 14px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .section-title {
+        color: #888;
+        font-size: 13px;
+        font-weight: 700;
+        border-bottom: 1px solid #333333;
+        padding-bottom: 4px;
+        margin-bottom: 6px;
+      }
+
+      .section-cars {
+        color: #f5f5f5;
+        font-size: 13px;
+        line-height: 1.5;
+        white-space: normal; // Asegura que las comas hagan salto de línea si la lista es muy larga
+      }
+    }
+  }
+
+  // Activa el tooltip al pasar el ratón por "MULTICLASE"
+  &:hover .html-tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+}

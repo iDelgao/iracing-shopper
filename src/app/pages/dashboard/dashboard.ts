@@ -189,11 +189,33 @@ export class Dashboard implements OnInit {
     return resultado;
   }
 
-  // Función auxiliar corregida para tu estructura
-  getNombreCocheUnico(cocheData: any): string {
-    if (!cocheData) return '';
-    if (typeof cocheData === 'string') return cocheData;
-    if (cocheData.coches && cocheData.coches.length > 0) return cocheData.coches[0];
-    return cocheData.nombre || '';
+  // --- NUEVAS FUNCIONES DE APOYO PARA EL HTML ---
+
+  // 1. Decide estrictamente si la serie usa Tooltip (Multiclase) o Etiquetas (Clase única)
+  esMulticlase(serie: SerieOficial): boolean {
+    if (!serie.coches || serie.coches.length === 0) return false;
+
+    // Si el formato es un array de strings sueltos
+    if (typeof serie.coches[0] === 'string') {
+      return serie.coches.length > 3; // Si hay muchos coches sueltos, forzamos multiclase para no romper la UI
+    }
+
+    // Si el formato es de objetos (ej: [{ clase: 'GTP', coches: [...] }, { clase: 'GT3', coches: [...] }])
+    return serie.coches.length > 1; // Más de 1 clase detectada = MULTICLASE puro
+  }
+
+  // 2. Extrae los coches para pintarlos como etiquetas sueltas (Solo se ejecuta si NO es multiclase)
+  getCochesPlanos(cochesData: any[]): string[] {
+    if (!cochesData || cochesData.length === 0) return [];
+
+    // Si es formato antiguo de strings, los devolvemos tal cual
+    if (typeof cochesData[0] === 'string') return cochesData;
+
+    // Si es formato de objetos, como sabemos que NO es multiclase, extraemos los coches de su única clase
+    if (cochesData[0].coches && Array.isArray(cochesData[0].coches)) {
+      return cochesData[0].coches;
+    }
+
+    return [];
   }
 }

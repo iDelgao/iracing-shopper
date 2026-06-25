@@ -33,13 +33,10 @@
               </mat-panel-title>
 
               <mat-panel-description class="header-right">
-                <!-- CASO 1: Multiclase (Mostramos badge simple y tooltip) -->
-                <div class="panel-coche">
-                  <div
-                    class="custom-tooltip-wrapper multiclase-badge"
-                    *ngIf="serie.coches?.length > 1"
-                  >
-                    <span class="texto-multiclase">MULTICLASE</span>
+                <ng-container *ngIf="esMulticlase(serie); else claseUnica">
+                  <div class="custom-tooltip-wrapper multiclase-badge">
+                    <span class="texto-multiclase">Multiclase</span>
+
                     <div class="html-tooltip">
                       <div
                         class="tooltip-section"
@@ -50,12 +47,13 @@
                       </div>
                     </div>
                   </div>
+                </ng-container>
 
-                  <div *ngIf="serie.coches?.length === 1" class="tags-container">
-                    <ng-container *ngFor="let clase of serie.coches">
+                <ng-template #claseUnica>
+                  <div class="tags-container">
+                    <ng-container *ngFor="let coche of getCochesPlanos(serie.coches)">
                       <span
                         class="car-tag"
-                        *ngFor="let coche of clase.coches"
                         [ngClass]="{
                           'free-badge': dataService.getTipoCoche(coche) === 'free',
                           'owned-badge': dataService.getTipoCoche(coche) === 'owned',
@@ -66,24 +64,7 @@
                       </span>
                     </ng-container>
                   </div>
-                </div>
-
-                <!-- CASO 2: Clase única (Tu lógica actual de etiquetas) -->
-                <div *ngIf="serie.coches.length === 1" class="tags-container">
-                  <ng-container *ngFor="let clase of serie.coches">
-                    <span
-                      class="car-tag"
-                      *ngFor="let coche of clase.coches"
-                      [ngClass]="{
-                        'free-badge': dataService.getTipoCoche(coche) === 'free',
-                        'owned-badge': dataService.getTipoCoche(coche) === 'owned',
-                        'missing-badge': dataService.getTipoCoche(coche) === 'missing',
-                      }"
-                    >
-                      {{ coche }}
-                    </span>
-                  </ng-container>
-                </div>
+                </ng-template>
               </mat-panel-description>
             </mat-expansion-panel-header>
 

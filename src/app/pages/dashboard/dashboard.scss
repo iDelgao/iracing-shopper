@@ -321,65 +321,98 @@
 }
 
 /* =========================================
+   FIX CIRUGÍA: ABRIR SOLO LA CABECERA DEL PANEL
+   ========================================= */
+/* Damos permiso de desborde SOLO al panel exterior y a los elementos del Header */
+::ng-deep .mat-mdc-expansion-panel,
+::ng-deep .mat-mdc-expansion-panel-header,
+::ng-deep .mat-mdc-expansion-panel-header .mat-content,
+::ng-deep .mat-mdc-expansion-panel-header .mat-mdc-expansion-panel-header-description {
+  overflow: visible !important;
+  contain: none !important;
+}
+
+/* ¡VITAL! Nos aseguramos de que el cuerpo del acordeón vuelva a estar sellado.
+  Esto evita que el contenido oculto alargue la página y genere el scroll vertical.
+*/
+::ng-deep .mat-mdc-expansion-panel-content,
+::ng-deep .mat-mdc-expansion-panel-body {
+  overflow: hidden !important;
+}
+
+/* =========================================
    TOOLTIP CUSTOM PARA PANEL MULTICLASE
    ========================================= */
 .custom-tooltip-wrapper {
   position: relative;
   display: inline-flex;
   align-items: center;
-  cursor: help; // Indica al usuario que hay información al pasar el ratón
+  cursor: help;
 
-  // Estilo para la palabra "MULTICLASE"
   .texto-multiclase {
-    color: #f5f5f5; // Puedes cambiarlo al color Cyan/Naranja que uses en tu app
+    color: #f5f5f5;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: 0.5px;
     transition: color 0.2s ease;
+    padding: 4px 8px;
 
     &:hover {
-      color: #00e5ff; // Efecto hover opcional
+      color: #00e5ff;
     }
   }
 
-  // Estilos del cuadro flotante (oculto por defecto)
   .html-tooltip {
-    visibility: hidden;
+    display: none;
     opacity: 0;
     position: absolute;
-    bottom: 150%; // Flota justo por encima del texto MULTICLASE
-    left: 50%;
-    transform: translateX(-50%);
+
+    /* 👇 LA CLAVE: Invertimos la gravedad. Ahora crece hacia ARRIBA 👇 */
+    bottom: 100%;
+    top: auto;
+    margin-bottom: 10px; /* Separación desde la palabra MULTICLASE hacia arriba */
+
+    /* Mantenemos el anclaje a la derecha para seguir sin scroll horizontal */
+    left: auto;
+    right: 0;
+    transform: none;
+
     background-color: #121212;
     border: 1px solid #333333;
     border-radius: 6px;
     padding: 14px 18px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.7);
+    /* Cambiamos la sombra para que proyecte hacia arriba */
+    box-shadow: 0px -8px 24px rgba(0, 0, 0, 0.7);
     min-width: 260px;
-    z-index: 9999;
+    z-index: 999999 !important;
     pointer-events: none;
     transition:
       opacity 0.2s ease,
       visibility 0.2s ease;
 
-    // Flecha del tooltip
+    /* 👇 Invertimos la flechita para que salga por debajo apuntando a "MULTICLASE" 👇 */
     &::after {
       content: '';
       position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -6px;
+      top: 100%; /* La flecha sale ahora de la parte inferior */
+      bottom: auto;
+      left: auto;
+      right: 40px;
+      margin-left: 0;
       border-width: 6px;
       border-style: solid;
+      /* Coloreamos el borde superior de la flecha */
       border-color: #121212 transparent transparent transparent;
     }
 
-    // Interior estructurado (Mantenemos tu estilo exacto)
+    /* ... mantén tu interior (.tooltip-section) exactamente igual ... */
+
     .tooltip-section {
       margin-bottom: 14px;
       &:last-child {
         margin-bottom: 0;
       }
+      text-align: left; /* Fuerza alineación izquierda del texto interior */
 
       .section-title {
         color: #888;
@@ -394,23 +427,15 @@
         color: #f5f5f5;
         font-size: 13px;
         line-height: 1.5;
-        white-space: normal; // Asegura que las comas hagan salto de línea si la lista es muy larga
+        white-space: normal;
       }
     }
   }
 
-  // Activa el tooltip al pasar el ratón por "MULTICLASE"
-  &:hover .html-tooltip {
-    visibility: visible;
+  &:hover .html-tooltip,
+  &:hover::after {
+    display: block; /* <-- Añade esto para que vuelva a existir al pasar el ratón */
     opacity: 1;
-  }
-
-  /* =========================================
-   FIX: ROMPER LAS PAREDES DEL PANEL MATERIAL
-   ========================================= */
-  ::ng-deep .mat-expansion-panel,
-  ::ng-deep .mat-expansion-panel-header,
-  ::ng-deep .mat-expansion-panel-header .mat-content {
-    overflow: visible !important;
+    visibility: visible;
   }
 }

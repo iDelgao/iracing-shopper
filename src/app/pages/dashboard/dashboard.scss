@@ -299,19 +299,30 @@
   margin-bottom: 2px;
 }
 
+/* =========================================
+   BOTÓN AGRUPADO (Estilo "Coche Adquirido")
+   ========================================= */
 .multiclass-badge {
-  background-color: #3f51b5; /* Un azul profesional, o usa tu color de marca */
-  color: white;
+  background-color: rgba(0, 110, 255, 0.12);
+  color: #006eff !important;
+  border: 1px solid #006eff;
+
+  /* Ajustes de tamaño y alineación */
   padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: help; /* Indica que es interactivo */
-  transition: background 0.2s;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+
+  /* Interactividad */
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
+/* Efecto al pasar el ratón para que se note que es un botón flotante */
 .multiclass-badge:hover {
-  background-color: #303f9f;
+  background-color: rgba(0, 110, 255, 0.25);
+  box-shadow: 0 0 10px rgba(0, 110, 255, 0.3);
 }
 
 /* Opcional: Para que el tooltip sea un poco más ancho si tienes muchos coches */

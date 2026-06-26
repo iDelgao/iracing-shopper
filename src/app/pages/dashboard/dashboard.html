@@ -37,15 +37,13 @@
                   *ngIf="getEtiquetaAgrupada(serie) as etiquetaBoton; else cochesSueltos"
                 >
                   <div
-                    class="custom-tooltip-wrapper multiclase-badge"
+                    class="custom-tooltip-wrapper multiclass-badge"
                     #menuTrigger="matMenuTrigger"
                     [matMenuTriggerFor]="multiMenu"
                     (mouseenter)="menuTrigger.openMenu()"
                     (mouseleave)="menuTrigger.closeMenu()"
                   >
-                    <span class="car-tag" [ngClass]="getEstadoMulticlase(serie.coches)">
-                      {{ etiquetaBoton }}
-                    </span>
+                    {{ etiquetaBoton }}
                   </div>
 
                   <mat-menu

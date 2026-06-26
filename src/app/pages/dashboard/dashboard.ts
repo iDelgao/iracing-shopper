@@ -79,7 +79,7 @@ export class Dashboard implements OnInit {
 
   getSemanaDeSerie(serie: SerieOficial) {
     return (
-      serie.calendario.find((s) => s.numero === this.semanaActual) || {
+      serie.calendario?.find((s) => s.numero === this.semanaActual) || {
         circuito: 'Descanso',
         fechaInicio: '-',
         duracion: '-',
@@ -95,8 +95,9 @@ export class Dashboard implements OnInit {
     const misCoches = this.dataService.getMisCochesIds();
     const misCircuitos = this.dataService.getMisCircuitosIds();
 
-    const tieneLicencia =
-      this.nivelLicencia[perfil.licencias.sportsCar] >= this.nivelLicencia[serie.clase];
+    const licenciaUsuario = perfil.licencias.sportsCar ?? 'R';
+    const claseSerie = serie.clase ?? 'R';
+    const tieneLicencia = this.nivelLicencia[licenciaUsuario] >= this.nivelLicencia[claseSerie];
 
     // Comprueba si tienes alguno de los coches que pide la serie
     const tieneCoche = serie.coches.some((item: any) => {
@@ -116,15 +117,14 @@ export class Dashboard implements OnInit {
     return tieneLicencia && tieneCoche && tieneCircuito;
   }
 
-  // Función inteligente para agrupar coches en el tooltip (Corregida para tu estructura real)
-  // 1. Agrupa los coches por clase (Versión Array para poder pintarlos por separado)
+  // 1. DICCIONARIO DE CLASES (Actualizado con GT3, GT4, TCR y Production Cars)
   getTooltipMulticlase(cochesData: any[]): { clase: string; coches: string[] }[] {
     if (!cochesData || cochesData.length === 0) return [];
 
     const grupos: { [key: string]: string[] } = {};
     const cochesSinClase: string[] = [];
-
     const cochesExtraidos: string[] = [];
+
     cochesData.forEach((item) => {
       if (typeof item === 'string') cochesExtraidos.push(item);
       else if (item.coches && Array.isArray(item.coches)) cochesExtraidos.push(...item.coches);
@@ -153,16 +153,44 @@ export class Dashboard implements OnInit {
         nombreUpper.includes('GT3') ||
         nombreUpper.includes('PORSCHE 911 GT3 R') ||
         nombreUpper.includes('296 GT3') ||
-        nombreUpper.includes('M4 GT3')
+        nombreUpper.includes('M4 GT3') ||
+        nombreUpper.includes('MERCEDES-AMG GT3') ||
+        nombreUpper.includes('AUDI R8 LMS') ||
+        nombreUpper.includes('MCLAREN 720S GT3') ||
+        nombreUpper.includes('FORD MUSTANG GT3') ||
+        nombreUpper.includes('CORVETTE Z06 GT3.R')
       ) {
         if (!grupos['GT3']) grupos['GT3'] = [];
         grupos['GT3'].push(cocheStr);
-      } else if (nombreUpper.includes('GT4')) {
+      } else if (
+        nombreUpper.includes('GT4') ||
+        nombreUpper.includes('MCLAREN 570S') ||
+        nombreUpper.includes('ASTON MARTIN VANTAGE GT4') ||
+        nombreUpper.includes('PORSCHE 718 CAYMAN GT4') ||
+        nombreUpper.includes('MERCEDES-AMG GT4') ||
+        nombreUpper.includes('BMW M4 GT4')
+      ) {
         if (!grupos['GT4']) grupos['GT4'] = [];
         grupos['GT4'].push(cocheStr);
-      } else if (nombreUpper.includes('TCR')) {
+      } else if (
+        nombreUpper.includes('TCR') ||
+        nombreUpper.includes('ELANTRA') ||
+        nombreUpper.includes('CIVIC TYPE R') ||
+        nombreUpper.includes('VELOSTER')
+      ) {
         if (!grupos['TCR']) grupos['TCR'] = [];
         grupos['TCR'].push(cocheStr);
+      } else if (
+        nombreUpper.includes('CLIO') ||
+        nombreUpper.includes('MUSTANG FR500S') ||
+        nombreUpper.includes('GR86') ||
+        nombreUpper.includes('JETTA') ||
+        nombreUpper.includes('SOLSTICE') ||
+        nombreUpper.includes('MAZDA MX-5') ||
+        nombreUpper.includes('M2 RACING')
+      ) {
+        if (!grupos['Production Cars']) grupos['Production Cars'] = [];
+        grupos['Production Cars'].push(cocheStr);
       } else {
         cochesSinClase.push(cocheStr);
       }
@@ -170,7 +198,7 @@ export class Dashboard implements OnInit {
 
     const resultado = [];
     for (const clase in grupos) {
-      resultado.push({ clase: clase, coches: grupos[clase] }); // Enviamos el array, no un texto
+      resultado.push({ clase: clase, coches: grupos[clase] });
     }
 
     if (cochesSinClase.length > 0) {
@@ -180,10 +208,55 @@ export class Dashboard implements OnInit {
       });
     }
 
-    return Object.keys(grupos).map((key) => ({
-      clase: key,
-      coches: grupos[key],
-    }));
+    return resultado;
+  }
+
+  // 2. NUEVA FUNCIÓN: Decide si agrupamos los coches en un botón y qué texto ponerle
+  getEtiquetaAgrupada(serie: any): string | null {
+    const cochesData = serie.coches;
+
+    // Si la serie tiene 1 coche o ninguno, NO agrupamos (se muestra la etiqueta normal)
+    if (!cochesData || cochesData.length <= 1) return null;
+
+    const grupos = this.getTooltipMulticlase(cochesData);
+
+    // A) Si nuestra función ha metido a TODOS los coches en UNA SOLA clase conocida (Ej: Todos son GT3)
+    if (grupos.length === 1 && grupos[0].clase !== 'Coches' && grupos[0].clase !== 'Otras Clases') {
+      return grupos[0].clase; // Devolverá automáticamente "GT3", "GT4", "Production Cars", etc.
+    }
+
+    // B) Si hay varias clases mezcladas (e.g., GTP y GT3)
+    if (this.esMulticlase(serie)) {
+      return 'Multiclase';
+    }
+
+    // C) Si hay 3 coches o más que no encajan en una clase pura (ej. NASCAR con 3 marcas)
+    // Los agrupamos bajo "Varios Coches" para no destruir el diseño de la pantalla
+    if (cochesData.length >= 3) {
+      return 'Varios Coches';
+    }
+
+    // Si son solo 2 coches "raros" (ej. Supercars), devolvemos null para que se muestren ambos
+    return null;
+  }
+
+  // 3. Extrae una lista limpia de nombres de coches para cuando se muestran sueltos
+  getCarsList(cochesData: any[]): string[] {
+    if (!cochesData || cochesData.length === 0) return [];
+
+    const listaLimpia: string[] = [];
+
+    cochesData.forEach((item) => {
+      if (typeof item === 'string') {
+        listaLimpia.push(item);
+      } else if (item.coches && Array.isArray(item.coches)) {
+        listaLimpia.push(...item.coches);
+      } else if (item.nombre) {
+        listaLimpia.push(item.nombre);
+      }
+    });
+
+    return listaLimpia;
   }
 
   // 2. Decide de qué color se pinta el botón "Multiclase" (Faltante, Comprado o Gratis)

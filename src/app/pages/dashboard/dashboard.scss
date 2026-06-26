@@ -386,7 +386,7 @@
 }
 
 .section-cars {
-  padding: 5px 5px;
+  padding: 0px 5px;
   font-weight: normal !important; /* <-- SIN NEGRITA */
 }
 
@@ -400,6 +400,13 @@
 
 /* 3. Coches Comprados: Normal (Sin negrita, sin subrayado) */
 .section-cars .text-owned {
+  color: #64b5f6 !important; /* Azul */
+  font-weight: normal !important; /* <-- SIN NEGRITA */
+  text-decoration: none !important; /* <-- SIN SUBRAYADO */
+  font-size: 13px !important;
+}
+
+.section-cars .text-free {
   color: #64b5f6 !important; /* Azul */
   font-weight: normal !important; /* <-- SIN NEGRITA */
   text-decoration: none !important; /* <-- SIN SUBRAYADO */

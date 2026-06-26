@@ -33,7 +33,9 @@
               </mat-panel-title>
 
               <mat-panel-description class="header-right">
-                <ng-container *ngIf="esMulticlase(serie); else claseUnica">
+                <ng-container
+                  *ngIf="getEtiquetaAgrupada(serie) as etiquetaBoton; else cochesSueltos"
+                >
                   <div
                     class="custom-tooltip-wrapper multiclase-badge"
                     #menuTrigger="matMenuTrigger"
@@ -42,7 +44,7 @@
                     (mouseleave)="menuTrigger.closeMenu()"
                   >
                     <span class="car-tag" [ngClass]="getEstadoMulticlase(serie.coches)">
-                      Multiclase
+                      {{ etiquetaBoton }}
                     </span>
                   </div>
 
@@ -55,7 +57,7 @@
                   >
                     <div
                       style="
-                        padding: 0px 10px !important;
+                        padding: 10px !important;
                         background-color: #1a1d27 !important;
                         display: flex;
                         flex-direction: column;
@@ -88,6 +90,21 @@
                     </div>
                   </mat-menu>
                 </ng-container>
+
+                <ng-template #cochesSueltos>
+                  <ng-container *ngFor="let coche of getCarsList(serie.coches)">
+                    <span
+                      class="car-tag"
+                      [ngClass]="{
+                        'free-badge': dataService.getTipoCoche(coche) === 'free',
+                        'owned-badge': dataService.getTipoCoche(coche) === 'owned',
+                        'missing-badge': dataService.getTipoCoche(coche) === 'missing',
+                      }"
+                    >
+                      {{ coche }}
+                    </span>
+                  </ng-container>
+                </ng-template>
 
                 <ng-template #claseUnica>
                   <div class="tags-container">

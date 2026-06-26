@@ -14,10 +14,13 @@ export interface CocheClase {
 
 export interface SerieOficial {
   nombre: string;
-  categoria: string;
-  clase: string;
-  coches: CocheClase[]; // Soporta clases o un arreglo simple de nombres de coches
-  calendario: any[]; // (O tu interfaz de CalendarioItem)
+  categoria?: string;
+  clase?: string;
+  licencia?: string;
+  tipo?: string;
+  coches: CocheClase[] | string[]; // Soporta clases o un arreglo simple de nombres de coches
+  calendario?: any[]; // (O tu interfaz de CalendarioItem)
+  semanas?: any[];
 }
 
 @Injectable({
@@ -843,6 +846,26 @@ export class Schedule {
           circuito: 'Nürburgring Combined - Gesamtstrecke VLN',
           duracion: '240 mins',
         },
+      ],
+    },
+    {
+      nombre: 'Production Car Challenge by Sim-Lab',
+      licencia: 'D',
+      tipo: 'Sports Car',
+      coches: ['BMW M2 Racing (G87)', 'Toyota GR86', 'Renault Clio', 'Global Mazda MX-5 Cup'],
+      semanas: [
+        { semana: 1, circuito: 'Virginia International Raceway - Full Course' },
+        { semana: 2, circuito: 'Qualcomm Circuit (Naval Base Coronado)' },
+        { semana: 3, circuito: 'Circuit de Spa-Francorchamps - Endurance' },
+        { semana: 4, circuito: 'Okayama International Circuit - Full Course' },
+        { semana: 5, circuito: 'Road America - Full Course' },
+        { semana: 6, circuito: 'World Wide Technology Raceway (Gateway) - Road Course' },
+        { semana: 7, circuito: 'Oran Park Raceway - Grand Prix' },
+        { semana: 8, circuito: 'Long Beach Street Circuit' },
+        { semana: 9, circuito: 'Lime Rock Park - Classic' },
+        { semana: 10, circuito: 'Suzuka International Racing Course - Grand Prix' },
+        { semana: 11, circuito: 'Daytona International Speedway - Road Course' },
+        { semana: 12, circuito: 'Charlotte Motor Speedway - Roval No Chicanes' },
       ],
     },
   ];

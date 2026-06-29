@@ -289,7 +289,6 @@
   white-space: nowrap; /* Evita que el nombre del coche se parta */
   font-size: 0.8rem;
   padding: 2px 6px;
-  /* ... resto de tu estilo ... */
 }
 
 .class-label {
@@ -331,9 +330,6 @@
   white-space: pre-line; /* Respeta los saltos de línea del mapa */
 }
 
-/* =========================================
-   FIX CIRUGÍA: ABRIR SOLO LA CABECERA DEL PANEL
-   ========================================= */
 /* Damos permiso de desborde SOLO al panel exterior y a los elementos del Header */
 ::ng-deep .mat-mdc-expansion-panel,
 ::ng-deep .mat-mdc-expansion-panel-header,
@@ -411,22 +407,22 @@
 
 /* 3. Coches Comprados: Normal (Sin negrita, sin subrayado) */
 .section-cars .text-owned {
-  color: #64b5f6 !important; /* Azul */
-  font-weight: normal !important; /* <-- SIN NEGRITA */
+  color: #24d00d !important;
+  font-weight: bold !important; /* <-- SIN NEGRITA */
   text-decoration: none !important; /* <-- SIN SUBRAYADO */
   font-size: 13px !important;
 }
 
 .section-cars .text-free {
-  color: #64b5f6 !important; /* Azul */
-  font-weight: normal !important; /* <-- SIN NEGRITA */
+  color: #24d00d !important;
+  font-weight: bold !important; /* <-- SIN NEGRITA */
   text-decoration: none !important; /* <-- SIN SUBRAYADO */
   font-size: 13px !important;
 }
 
 /* 4. Coches Faltantes: Normal (Le quitamos hasta la cursiva) */
 .section-cars .text-missing {
-  color: #888888 !important; /* Gris */
+  color: #ffa366 !important; /* Gris */
   font-weight: normal !important; /* <-- SIN NEGRITA */
   text-decoration: none !important; /* <-- SIN SUBRAYADO */
   font-style: normal !important; /* <-- SIN CURSIVA */

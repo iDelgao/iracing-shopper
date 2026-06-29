@@ -318,4 +318,42 @@ export class Dashboard implements OnInit {
 
     return [];
   }
+  formatearDuracion(duracion: string): string {
+    if (!duracion) return '';
+
+    // Si la cadena contiene la palabra "mins"
+    if (duracion.includes('mins')) {
+      // Extraemos solo el número
+      const minutos = parseInt(duracion.replace(/[^\d]/g, ''), 10);
+
+      // Si es 60 o mayor, hacemos la conversión
+      if (minutos >= 60) {
+        const horas = minutos / 60;
+        // Lógica para singular o plural
+        return horas === 1 ? '1 hora' : `${horas} horas`;
+      }
+    }
+
+    // Si son menos de 60 mins, o si son "laps" (vueltas), lo devuelve tal cual
+    return duracion;
+  }
+  getCocheParaSemana(serie: any, numeroSemana: number): string {
+    if (serie.nombre !== 'Ring Meister by LVRY') return serie.coches.join(', ');
+
+    const coches: { [key: number]: string } = {
+      1: 'Acura NSX GT3 EVO 22, Aston Martin Vantage GT3 EVO, Audi R8 LMS EVO II GT3, BMW M4 GT3 EVO, Chevrolet Corvette Z06 GT3.R, Ferrari 296 GT3, Ford Mustang GT3, Lamborghini Huracán GT3 EVO, McLaren 720S GT3 EVO, Mercedes-AMG GT3 2020, Porsche 911 GT3 R (992)',
+      2: 'Ford Mustang FR500S',
+      3: 'Porsche Mission R',
+      4: 'Aston Martin Vantage GT4, BMW M4 G82 GT4 Evo, Ford Mustang GT4, McLaren 570S GT4, Mercedes-AMG GT4, Porsche 718 Cayman GT4 Clubsport MR',
+      5: 'Dallara IL-15',
+      6: 'Aston Martin DBR9 GT1, Chevrolet Corvette C6.R GT1',
+      7: 'Porsche 911 Cup (992.2)',
+      8: 'Radical SR8',
+      9: 'Ligier JS P320',
+      10: 'Renault Clio',
+      11: 'EURO NASCAR V8GP',
+      12: 'Pontiac Solstice',
+    };
+    return coches[numeroSemana] || 'Coche estándar';
+  }
 }

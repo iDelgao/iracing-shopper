@@ -130,6 +130,7 @@
                     <th>SEMANA</th>
                     <th>FECHA INICIO</th>
                     <th>CIRCUITO</th>
+                    <th>COCHE/S</th>
                     <th>DURACIÓN</th>
                     <th>ESTADO</th>
                   </tr>
@@ -144,7 +145,31 @@
                     <td class="track-cell">
                       <mat-icon class="track-icon">flag</mat-icon> {{ sem.circuito }}
                     </td>
-                    <td>{{ sem.duracion }}</td>
+                    <td class="coche-cell">
+                      <!-- Si es Ring Meister, aplicamos el estilo de "badge" o botón -->
+                      <span
+                        *ngIf="serie.nombre === 'Ring Meister by LVRY'"
+                        class="badge-serie"
+                        [matTooltip]="getCocheParaSemana(serie, sem.numero)"
+                      >
+                        {{ getCocheParaSemana(serie, sem.numero) | slice: 0 : 20
+                        }}{{ getCocheParaSemana(serie, sem.numero).length > 20 ? '...' : '' }}
+                      </span>
+
+                      <!-- Estilo para series estándar -->
+                      <span
+                        *ngIf="serie.nombre !== 'Ring Meister by LVRY'"
+                        class="badge-serie"
+                        [matTooltip]="serie.coches.join(', ')"
+                      >
+                        {{
+                          serie.coches.length > 1
+                            ? serie.coches.length + ' coches'
+                            : serie.coches[0]
+                        }}
+                      </span>
+                    </td>
+                    <td>{{ formatearDuracion(sem.duracion) }}</td>
                     <td>
                       <span
                         class="badge free-badge"
